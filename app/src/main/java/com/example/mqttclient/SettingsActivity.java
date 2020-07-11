@@ -10,12 +10,20 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
+import com.bumptech.glide.Glide;
 import com.example.mqttclient.mqtt.MqttParameters;
 import com.example.mqttclient.mqtt.MqttParametersManager;
 import com.example.mqttclient.mqtt.MqttService;
+import com.example.mqttclient.util.HttpUtil;
 
+import java.io.IOException;
 import java.util.Set;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -23,6 +31,8 @@ public class SettingsActivity extends AppCompatActivity {
     private MqttService.MqttBinder mqttBinder;
     private String TAG = "SettingsActivity";
     private EditText etServerIp, etPort, etClientId, etUserName, etPassword;
+
+    private ImageView imageView;
 
     private ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -53,6 +63,11 @@ public class SettingsActivity extends AppCompatActivity {
         etUserName.setText(mqttParameters.userName);
         etPassword.setText(mqttParameters.passWord);
 
+        imageView = (ImageView) findViewById(R.id.bing_pic_img);//背景图片
+        loadBingPic();
+
+
+
         findViewById(R.id.save_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +76,7 @@ public class SettingsActivity extends AppCompatActivity {
                         , etClientId.getText().toString()
                         , etUserName.getText().toString()
                         , etPassword.getText().toString()));
+
                 Toast.makeText(SettingsActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
                 mqttBinder.reConnect();
                 finish();
@@ -73,4 +89,30 @@ public class SettingsActivity extends AppCompatActivity {
         unbindService(connection);
         super.onDestroy();
     }
+
+
+    private void loadBingPic() {
+//        String requestBingPic = "http://guolin.tech/api/bing_pic";
+        String requestBingPic = "https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302&device=mobile";
+//        String requestBingPic = "http://pic.tsmp4.net/api/fengjing/img.php";
+        HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String bingPic = response.toString();
+                int L = bingPic.length();
+                final String temp_bingPic = bingPic.substring(bingPic.indexOf("url=")+4,L-1);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.with(SettingsActivity.this).load(temp_bingPic).into(imageView);
+                    }
+                });
+            }
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
 }
