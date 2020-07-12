@@ -10,6 +10,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/nav_button"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:background="@drawable/ic_home" />
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/dev_connect_state"
             android:layout_width="wrap_content"
@@ -31,22 +42,26 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="64dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="室内温度:"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/temperature_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="0"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="6"
                     android:text="°C"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -249,12 +264,20 @@
                     android:text="风扇:"
                     android:textSize="20sp"/>
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="104dp"
+                    android:layout_height="39dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1" />
+
                 <Switch
                     android:id="@+id/fan_socket_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:textSize="20sp"/>
+
             </FrameLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+
+    <dbname value="device" />
+
+    <version value="2" />
+
+    <list>
+        <mapping class="com.example.mqttclient.dele_add.Device" />
+        <mapping class="com.example.mqttclient.dele_add.UserDevices" />
+    </list>
+</litepal>
