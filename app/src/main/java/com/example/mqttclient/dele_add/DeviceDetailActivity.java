@@ -1,11 +1,10 @@
 package com.example.mqttclient.dele_add;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -17,7 +16,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mqttclient.DevicesDemoActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.mqttclient.R;
 import com.example.mqttclient.mqtt.MqttService;
 import com.example.mqttclient.protocol.AirConditioningMessage;
@@ -40,6 +40,7 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
     private EditText editText;
     private TextView connectState;
     private TextView valuesName;
+    private AnimationDrawable animation;
 
     private MqttService.MqttBinder mqttBinder;
 
@@ -79,6 +80,20 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
         editText = findViewById(R.id.editText);
         connectState = findViewById(R.id.connect_state2);
         valuesName = findViewById(R.id.name);
+        imageView = findViewById(R.id.imageView);
+
+
+
+
+
+
+
+
+
+
+
+
+
         Intent mqttServiceIntent = new Intent(this, MqttService.class);
         bindService(mqttServiceIntent, connection, Context.BIND_AUTO_CREATE);
 
@@ -88,7 +103,9 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
         Toast.makeText(DeviceDetailActivity.this,"点击item",Toast.LENGTH_LONG).show();
         type = userDevices.getType();
         deviceName = userDevices.getDeviceName();
+       // String imgUrl = ""+type+".jpg";
         title.setText(deviceName);
+      //  imageVie
         if(type > 7) {
             if(type == 20){
                 editText.setVisibility(View.VISIBLE);
@@ -99,10 +116,27 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
             valuesName.setVisibility(View.VISIBLE);
         }
         aSwitch.setOnCheckedChangeListener(this);
+
+        switch (type){
+            case 15:  imageView.setBackgroundResource(R.drawable.animation1415);animation = (AnimationDrawable)imageView.getBackground();break;
+            case 1: imageView.setImageResource(R.drawable.tem);break;
+            case 2:
+            //case 1: imageView.setImageResource(R.drawable.fs);break;
+        }
     }
+
+
+
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+
+
+
+
+
+
         switch (type) {
             case 20:
                 try {
@@ -127,9 +161,16 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
                     if (compoundButton.isChecked()) {
                         Log.d("-------------","订阅主题："+userDevices.getTheme());
                         Log.d("-------------","点击开关");
+                        animation.setOneShot(false);
+                        if ((animation.isRunning())){
+                            animation.stop();
+                        }
+                            animation.start();
+
                         mqttBinder.publishMessage(userDevices.getTheme(),
                                 new Gson().toJson(new BoolMessage(true)));
                     } else {
+                        animation.stop();
                         mqttBinder.publishMessage(userDevices.getTheme(),
                                 new Gson().toJson(new BoolMessage(false)));
                     }

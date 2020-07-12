@@ -104,7 +104,8 @@
         android:layout_height="wrap_content"
         android:text="保存"
         android:layout_gravity="center"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:alpha="0.7"/>
 
 </LinearLayout>
 </RelativeLayout>
