@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.mqttclient.dele_add.DeviceActivity;
 import com.example.mqttclient.mqtt.MqttService;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -70,6 +71,22 @@ public class MainActivity extends AppCompatActivity implements MqttService.MqttE
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, DevicesDemoActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.show_dev_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, DeviceActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.show_detail_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Device2Activity.class);
                 startActivity(intent);
             }
         });
