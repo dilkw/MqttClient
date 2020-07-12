@@ -10,17 +10,28 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.mqttclient.mqtt.MqttService;
+import com.example.mqttclient.util.HttpUtil;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements MqttService.MqttEventCallBack {
 
     private TextView connectState;
     private MqttService.MqttBinder mqttBinder;
     private String TAG = "MainActivity";
+
+    private ImageView imageView;
 
     private ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -46,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements MqttService.MqttE
         setContentView(R.layout.activity_main);
 
         connectState = findViewById(R.id.connect_state);
+
 
         Intent mqttServiceIntent = new Intent(this, MqttService.class);
         bindService(mqttServiceIntent, connection, Context.BIND_AUTO_CREATE);

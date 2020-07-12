@@ -6,11 +6,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -35,6 +37,10 @@ public class DevicesDemoActivity extends AppCompatActivity implements MqttServic
     private Switch parlourLightSwitch, curtain_switch, fan_socket_switch, air_conditioning_switch;
     private Map<String, Integer> subscribeTopics = new HashMap<>();
 
+
+    private ImageView imageView;
+
+    private AnimationDrawable animation;
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -69,6 +75,11 @@ public class DevicesDemoActivity extends AppCompatActivity implements MqttServic
         pmValue = findViewById(R.id.pm_value);
         gasValue = findViewById(R.id.gas_value);
         doorStatus = findViewById(R.id.door_status);
+        imageView = (ImageView)findViewById(R.id.imageView);
+        imageView.setBackgroundResource(R.drawable.animation);
+
+        animation = (AnimationDrawable)imageView.getBackground();
+
 
         airCconditioningValue = findViewById(R.id.air_conditioning_value);
         parlourLightSwitch = findViewById(R.id.parlour_light_switch);
@@ -87,10 +98,18 @@ public class DevicesDemoActivity extends AppCompatActivity implements MqttServic
             case R.id.parlour_light_switch:
                 try {
                     if (compoundButton.isChecked()) {
-                        mqttBinder.publishMessage("/test/light1",
+                        Log.d(TAG, "onCheckedChanged: 22222222222222");
+                        animation.setOneShot(false);
+                        if ((animation.isRunning())){
+                            animation.stop();
+                        }
+                        animation.start();
+
+                        mqttBinder.publishMessage("/test/socket1",
                                 new Gson().toJson(new BoolMessage(true)));
                     } else {
-                        mqttBinder.publishMessage("/test/light1",
+                        animation.stop();
+                        mqttBinder.publishMessage("/test/socket1",
                                 new Gson().toJson(new BoolMessage(false)));
                     }
                 } catch (MqttException e) {

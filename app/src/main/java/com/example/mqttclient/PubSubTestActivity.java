@@ -11,12 +11,21 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.mqttclient.mqtt.MqttService;
+import com.example.mqttclient.util.HttpUtil;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class PubSubTestActivity extends AppCompatActivity implements MqttService.MqttEventCallBack {
 
@@ -25,6 +34,8 @@ public class PubSubTestActivity extends AppCompatActivity implements MqttService
     private MqttService.MqttBinder mqttBinder;
     private String TAG = "PubSubTestActivity";
     private String lastSubscribeTopic = null;
+
+    private ImageView imageView;
 
     private ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -52,6 +63,8 @@ public class PubSubTestActivity extends AppCompatActivity implements MqttService
         messagePublish = findViewById(R.id.message_publish_et);
         messaageRecv = findViewById(R.id.message_recv_tv);
         connectState = findViewById(R.id.pubsub_connect_state);
+        imageView = (ImageView) findViewById(R.id.bing_pic_img);//背景图片
+        loadBingPic();
 
         Intent mqttServiceIntent = new Intent(this, MqttService.class);
         bindService(mqttServiceIntent, connection, Context.BIND_AUTO_CREATE);
@@ -130,4 +143,28 @@ public class PubSubTestActivity extends AppCompatActivity implements MqttService
         unbindService(connection);
         super.onDestroy();
     }
+    private void loadBingPic() {
+//        String requestBingPic = "http://guolin.tech/api/bing_pic";
+        String requestBingPic = "https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302&device=mobile";
+//        String requestBingPic = "http://pic.tsmp4.net/api/fengjing/img.php";
+        HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String bingPic = response.toString();
+                int L = bingPic.length();
+                final String temp_bingPic = bingPic.substring(bingPic.indexOf("url=")+4,L-1);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.with(PubSubTestActivity.this).load(temp_bingPic).into(imageView);
+                    }
+                });
+            }
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
 }
