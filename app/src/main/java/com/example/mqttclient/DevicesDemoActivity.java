@@ -1,7 +1,5 @@
 package com.example.mqttclient;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mqttclient.mqtt.MqttService;
 import com.example.mqttclient.protocol.AirConditioningMessage;
@@ -76,7 +76,7 @@ public class DevicesDemoActivity extends AppCompatActivity implements MqttServic
         gasValue = findViewById(R.id.gas_value);
         doorStatus = findViewById(R.id.door_status);
         imageView = (ImageView)findViewById(R.id.imageView);
-        imageView.setBackgroundResource(R.drawable.animation);
+        imageView.setBackgroundResource(R.drawable.animation1415);
 
         animation = (AnimationDrawable)imageView.getBackground();
 

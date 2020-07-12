@@ -1,7 +1,5 @@
 package com.example.mqttclient.dele_add;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -10,12 +8,11 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.mqttclient.DevicesDemoActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.mqttclient.R;
 import com.example.mqttclient.mqtt.MqttService;
 
@@ -114,7 +111,7 @@ public class DeviceActivity extends AppCompatActivity
         setContentView(R.layout.activity_device);
         //DataSupport.deleteAll(UserDevices.class);
         userDeviceList = DataSupport.findAll(UserDevices.class);
-        connectState = findViewById(R.id.connectState);
+//        connectState = findViewById(R.id.connectState);
 
         items.clear();
 

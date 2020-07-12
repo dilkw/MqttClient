@@ -1,7 +1,5 @@
 package com.example.mqttclient;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +7,13 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mqttclient.dele_add.DeviceActivity;
 import com.example.mqttclient.mqtt.MqttService;
@@ -51,29 +54,29 @@ public class MainActivity extends AppCompatActivity implements MqttService.MqttE
         Intent mqttServiceIntent = new Intent(this, MqttService.class);
         bindService(mqttServiceIntent, connection, Context.BIND_AUTO_CREATE);
 
-        findViewById(R.id.settings_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
+//        findViewById(R.id.settings_btn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
-        findViewById(R.id.pubsub_test_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, PubSubTestActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        findViewById(R.id.dev_demo_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, DevicesDemoActivity.class);
-                startActivity(intent);
-            }
-        });
+//        findViewById(R.id.pubsub_test_btn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, PubSubTestActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        findViewById(R.id.dev_demo_btn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, DevicesDemoActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         findViewById(R.id.show_dev_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,5 +154,31 @@ public class MainActivity extends AppCompatActivity implements MqttService.MqttE
         unbindService(connection);
         super.onDestroy();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.settings_btn:
+                findViewById(R.id.settings_btn).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                    }
+                });
+        }
+        return true;
+    }
+
+
+
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.mqttclient.dele_add;
 
+
 import org.litepal.crud.DataSupport;
 
 public class Device extends DataSupport {

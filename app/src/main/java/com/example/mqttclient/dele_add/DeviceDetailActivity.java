@@ -120,7 +120,7 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
         switch (type){
             case 15:  imageView.setBackgroundResource(R.drawable.animation1415);animation = (AnimationDrawable)imageView.getBackground();break;
             case 1: imageView.setImageResource(R.drawable.tem);break;
-            case 2:
+            case 2:break;
             //case 1: imageView.setImageResource(R.drawable.fs);break;
         }
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mqttclient">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -17,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:sharedUserId="android.uid.system"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="MissingClass">
         <activity android:name=".Device2Activity"></activity>
         <activity android:name=".dele_add.DeviceDetailActivity" />
         <activity android:name=".dele_add.DeviceActivity" />
