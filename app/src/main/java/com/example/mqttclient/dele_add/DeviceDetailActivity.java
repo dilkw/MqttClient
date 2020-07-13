@@ -39,7 +39,7 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
     private ImageView imageView;
     private EditText editText;
     private TextView connectState;
-    private TextView valuesName;
+ //   private TextView valuesName;
     private AnimationDrawable animation;
 
     private MqttService.MqttBinder mqttBinder;
@@ -48,6 +48,8 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
     UserDevices userDevices;
     String deviceName;
     int type;
+
+    Statuss statuss = new Statuss();
 
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -69,6 +71,26 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
         }
     };
 
+    @Override
+    public void onMqttMessage(String topic, String message) {
+        Log.d("onMqttMessage", "topic:"+topic+ "message length:"+ message.length() + ", message:"+message);
+        Gson gson = new Gson();
+        switch (subscribeTopics.get(topic)){
+            case 1:
+                values.setText(deviceName+String.valueOf(gson.fromJson(message.trim(), FloatMessage.class).value));
+                break;
+
+            default:
+                values.setText(deviceName+String.valueOf(gson.fromJson(message.trim(), IntMessage.class).value));
+                break;
+
+            case 5:
+                String status = gson.fromJson(message.trim(), BoolMessage.class).value ?"开":"关";
+                values.setText(deviceName+status);
+               // statuss.setStatus(status);
+                break;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +101,7 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
         aSwitch = findViewById(R.id.switch1);
         editText = findViewById(R.id.editText);
         connectState = findViewById(R.id.connect_state2);
-        valuesName = findViewById(R.id.name);
+       // valuesName = findViewById(R.id.name);
         imageView = findViewById(R.id.imageView);
 
 
@@ -113,15 +135,36 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
             aSwitch.setVisibility(View.VISIBLE);
         }else{
             values.setVisibility(View.VISIBLE);
-            valuesName.setVisibility(View.VISIBLE);
+       //     valuesName.setVisibility(View.VISIBLE);
         }
         aSwitch.setOnCheckedChangeListener(this);
 
+
         switch (type){
-            case 15:  imageView.setBackgroundResource(R.drawable.animation1415);animation = (AnimationDrawable)imageView.getBackground();break;
+            case 15:
+            case 16:
+                imageView.setBackgroundResource(R.drawable.animation1415);animation = (AnimationDrawable)imageView.getBackground();animation.setOneShot(false);break;
             case 1: imageView.setImageResource(R.drawable.tem);break;
-            case 2:break;
-            //case 1: imageView.setImageResource(R.drawable.fs);break;
+            case 2: imageView.setImageResource(R.drawable.hum);break;
+            case 3: imageView.setImageResource(R.drawable.pm);break;
+            case 4: imageView.setImageResource(R.drawable.co2);break;
+            case 5: imageView.setImageResource(R.drawable.gas);break;
+            case 6: imageView.setImageResource(R.drawable.water);break;
+            case 7: imageView.setImageResource(R.drawable.illuminance);break;
+            case 8: imageView.setImageResource(R.drawable.human);break;
+            case 9: imageView.setImageResource(R.drawable.door_off);break;
+            case 10:imageView.setImageResource(R.drawable.window_out);break;
+            case 11:
+            case 12:
+                imageView.setBackgroundResource(R.drawable.animation1112);animation = (AnimationDrawable)imageView.getBackground();animation.setOneShot(false);break;
+            case 13:
+            case 14:
+                imageView.setBackgroundResource(R.drawable.animation1314);animation = (AnimationDrawable)imageView.getBackground();animation.setOneShot(true);break;
+            case 17:
+            case 18:
+                imageView.setBackgroundResource(R.drawable.animation1718);animation = (AnimationDrawable)imageView.getBackground();animation.setOneShot(false);break;
+            case 19: imageView.setBackgroundResource(R.drawable.animation19);animation = (AnimationDrawable)imageView.getBackground();animation.setOneShot(false);break;
+            case 20:imageView.setBackgroundResource(R.drawable.animation20);animation = (AnimationDrawable)imageView.getBackground();animation.setOneShot(false);break;
         }
     }
 
@@ -131,24 +174,23 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-
-
-
-
-
-
         switch (type) {
             case 20:
                 try {
                     if (compoundButton.isChecked()) {
+                        if ((animation.isRunning())){
+                            animation.stop();
+                        }
+                        animation.start();
                         Log.d("-------------","订阅主题："+userDevices.getTheme());
                         String json = new Gson().toJson(new AirConditioningMessage(true,
-                                Float.parseFloat(values.getText().toString())));
+                                Float.parseFloat(editText.getText().toString())));
                         Log.d("-------------","点击开关");
                         mqttBinder.publishMessage(userDevices.getTheme(),json);
                     } else {
+                        animation.stop();
                         String json = new Gson().toJson(new AirConditioningMessage(false,
-                                Float.parseFloat(values.getText().toString())));
+                                Float.parseFloat(editText.getText().toString())));
                         Log.d("json",json);
                         mqttBinder.publishMessage(userDevices.getTheme(),json);
                     }
@@ -161,7 +203,7 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
                     if (compoundButton.isChecked()) {
                         Log.d("-------------","订阅主题："+userDevices.getTheme());
                         Log.d("-------------","点击开关");
-                        animation.setOneShot(false);
+                        //animation.setOneShot(false);
                         if ((animation.isRunning())){
                             animation.stop();
                         }
@@ -200,25 +242,26 @@ public class DeviceDetailActivity extends AppCompatActivity implements MqttServi
         Log.d("DDD", "publish ok");
     }
 
-    @Override
-    public void onMqttMessage(String topic, String message) {
-        Log.d("onMqttMessage", "topic:"+topic+ "message length:"+ message.length() + ", message:"+message);
-        Gson gson = new Gson();
-        switch (subscribeTopics.get(topic)){
-            case 1:
-                values.setText(deviceName+String.valueOf(gson.fromJson(message.trim(), FloatMessage.class).value));
-                break;
-
-            default:
-                values.setText(deviceName+String.valueOf(gson.fromJson(message.trim(), IntMessage.class).value));
-                break;
-
-            case 5:
-                String status = gson.fromJson(message.trim(), BoolMessage.class).value ?"开":"关";
-                values.setText(deviceName+status);
-                break;
-        }
-    }
+//    @Override
+//    public void onMqttMessage(String topic, String message) {
+//        Log.d("onMqttMessage", "topic:"+topic+ "message length:"+ message.length() + ", message:"+message);
+//        Gson gson = new Gson();
+//        switch (subscribeTopics.get(topic)){
+//            case 1:
+//                values.setText(deviceName+String.valueOf(gson.fromJson(message.trim(), FloatMessage.class).value));
+//                break;
+//
+//            default:
+//                values.setText(deviceName+String.valueOf(gson.fromJson(message.trim(), IntMessage.class).value));
+//                break;
+//
+//            case 5:
+//                String status = gson.fromJson(message.trim(), BoolMessage.class).value ?"开":"关";
+//                values.setText(deviceName+status);
+//
+//                break;
+//        }
+//    }
 
 
 

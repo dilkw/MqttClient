@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_gravity="top">
 
     <ImageView
         android:id="@+id/bing_pic_img"
@@ -12,34 +13,52 @@
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/timg" />
 
-    <TextView
-        android:id="@+id/connect_state"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+<!--    <Button-->
+<!--        android:id="@+id/settings_btn"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="61dp"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginTop="0dp"-->
+<!--        android:layout_marginEnd="5dp"-->
+<!--        android:layout_marginBottom="670dp"-->
+<!--        android:layout_weight="2"-->
+<!--        android:alpha="0.7"-->
+<!--        android:background="@drawable/set"-->
+<!--        android:gravity="right" />-->
+
+    <Button
+        android:id="@+id/settings_btn"
+        android:layout_width="65dp"
+        android:layout_height="67dp"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/set"
         android:gravity="center"
-        android:text="未连接"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
+        android:gravity="right|center_vertical"
         android:orientation="vertical">
 
 
-<!--        <Button-->
-<!--            android:id="@+id/dev_demo_btn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="示例设备"-->
-<!--            android:textSize="20sp" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/dev_demo_btn"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="示例设备"-->
+        <!--            android:textSize="20sp" />-->
 
-<!--        <Button-->
-<!--            android:id="@+id/pubsub_test_btn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="测试发布订阅"-->
-<!--            android:textSize="20sp" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/pubsub_test_btn"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="测试发布订阅"-->
+        <!--            android:textSize="20sp" />-->
 
 
         <Button
@@ -61,14 +80,14 @@
             android:text="查看设备"
             android:textSize="20sp" />
 
-<!--        <Button-->
-<!--            android:id="@+id/settings_btn"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:gravity="center"-->
-<!--            android:text="设置"-->
-<!--            android:textSize="20sp" />-->
+        <TextView
+            android:id="@+id/connect_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="未连接"
+            android:textSize="18sp" />
 
     </LinearLayout>
-    </RelativeLayout>
+
+</RelativeLayout>

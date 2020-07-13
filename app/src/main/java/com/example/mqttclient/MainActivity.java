@@ -54,13 +54,13 @@ public class MainActivity extends AppCompatActivity implements MqttService.MqttE
         Intent mqttServiceIntent = new Intent(this, MqttService.class);
         bindService(mqttServiceIntent, connection, Context.BIND_AUTO_CREATE);
 
-//        findViewById(R.id.settings_btn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        findViewById(R.id.settings_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
 
 //        findViewById(R.id.pubsub_test_btn).setOnClickListener(new View.OnClickListener() {
 //            @Override

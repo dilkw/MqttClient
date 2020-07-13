@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
-    android:oneshot="true">
-    <item android:drawable="@drawable/fs" android:duration="100" />
-    <item android:drawable="@drawable/fs1" android:duration="100" />
+android:oneshot="true">
+<item android:drawable="@drawable/fs" android:duration="100" />
+<item android:drawable="@drawable/fs1" android:duration="100" />
 <!--    <item android:drawable="@drawable/c3" android:duration="200" />-->
 <!--    <item android:drawable="@drawable/c4" android:duration="200" />-->
 <!--    <item android:drawable="@drawable/c5" android:duration="200" />-->
